@@ -1,0 +1,127 @@
+# ===================================
+# Saylani Health Management Help Desk
+# .gitignore file
+# ===================================
+
+# ============ SENSITIVE FILES ============
+# NEVER commit these files - they contain API keys and secrets
+.env
+.env.local
+.env.*.local
+*.key
+secrets/
+credentials/
+
+# ============ CACHE & TEMPORARY FILES ============
+# Generated files that can be recreated
+data/cache/
+*.cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# ============ DATA FILES ============
+# Large data files and generated outputs
+# Keep the structure but not the actual data
+data/raw/*.csv
+data/cleaned/*.csv
+data/eda_output/*.png
+data/eda_output/*.html
+data/eda_output/*.json
+data/knowledge_base/*.json
+data/knowledge_base/*.md
+
+# Keep only example/template files
+!data/raw/.gitkeep
+!data/cleaned/.gitkeep
+!data/eda_output/.gitkeep
+!data/knowledge_base/.gitkeep
+
+# ============ VIRTUAL ENVIRONMENTS ============
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# ============ IDE & EDITOR FILES ============
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# ============ OS FILES ============
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+.directory
+
+# ============ BUILD & DISTRIBUTION ============
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ============ TESTING ============
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# ============ LOGS ============
+*.log
+logs/
+*.log.*
+
+# ============ MODELS & LARGE FILES ============
+# If you have any ML models or large binary files
+*.pkl
+*.h5
+*.model
+*.weights
+
+# ============ TEMPORARY TEST FILES ============
+check_models.py
+models_utf8.txt
+models.txt
+test_*.py
+temp_*
+GITHUB_PUSH_GUIDE.md
+test.py
+CHANGES_SUMMARY.md
+REFACTORING_SUMMARY.md
+augmented_patient_appointments.csv

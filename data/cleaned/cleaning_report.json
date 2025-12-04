@@ -1,0 +1,28 @@
+{
+    "timestamp": "2025-12-04T12:16:26.459535",
+    "status": "Success",
+    "input_file": "data/raw/augmented_patient_appointments.csv",
+    "rows_processed": {
+        "initial": 2000,
+        "final": 2000,
+        "doctors": 20,
+        "branches": 5,
+        "diseases": 23
+    },
+    "data_quality": {
+        "issues": [
+            "age: 2 missing values"
+        ]
+    },
+    "summary": {
+        "total_appointments": 2000,
+        "unique_patients": 2000,
+        "unique_doctors": 20,
+        "unique_branches": 5,
+        "unique_diseases": 23,
+        "date_range": {
+            "start": "2024-01-01T16:31:00",
+            "end": "2025-12-31T14:53:00"
+        }
+    }
+}
