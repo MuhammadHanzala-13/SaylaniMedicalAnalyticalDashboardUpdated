@@ -4,6 +4,12 @@ import requests
 import plotly.express as px
 import plotly.graph_objects as go
 import os
+import sys
+
+# Add project root to path to allow imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from src.data_cleaning import main as clean_data_main
 
 # Configuration
 API_URL = "http://localhost:8000"
@@ -201,8 +207,23 @@ Saylani Medical Help Desk Analytics
 # Load Data first (before sidebar filters)
 @st.cache_data
 def load_data():
-    if os.path.exists("data/cleaned/appointments.csv"):
-        return pd.read_csv("data/cleaned/appointments.csv")
+    data_path = "data/cleaned/appointments.csv"
+    
+    # Check if data exists, if not, try to generate it
+    if not os.path.exists(data_path):
+        with st.spinner("⚠️ Data not found. Generating data from raw files..."):
+            try:
+                # Ensure directories exist
+                os.makedirs("data/cleaned", exist_ok=True)
+                # Run cleaning pipeline
+                clean_data_main()
+                st.success("✅ Data generated successfully!")
+            except Exception as e:
+                st.error(f"❌ Failed to generate data: {str(e)}")
+                return None
+
+    if os.path.exists(data_path):
+        return pd.read_csv(data_path)
     return None
 
 df = load_data()
