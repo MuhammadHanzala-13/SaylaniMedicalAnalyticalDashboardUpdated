@@ -8,10 +8,9 @@ import os
 import json
 import hashlib
 import time
-import random
+import concurrent.futures
 from pathlib import Path
 from dotenv import load_dotenv
-import concurrent.futures
 
 # Load env variables
 load_dotenv()
@@ -92,6 +91,8 @@ FORMAT:
             print(f"Cache save failed: {e}")
 
     def _get_cache_key(self, query, context_text):
+        if context_text is None:
+            context_text = ""
         base = f"{query}|{context_text[:500]}"
         return hashlib.md5(base.encode()).hexdigest()
 
@@ -99,6 +100,9 @@ FORMAT:
     # MAIN RESPONSE GENERATION
     # -------------------------------------
     def generate_answer(self, query, context_text):
+        if context_text is None:
+            context_text = ""
+            
         cache_key = self._get_cache_key(query, context_text)
 
         # Serve from cache
@@ -148,6 +152,97 @@ ANSWER (interpret analytics only):
                 else:
                     print(f"API Failure: {e}")
 
+        # FALLBACK - use knowledge-base extraction
+        return self._extract_from_context(query, context_text)
+
+    # -------------------------------------
+    # FALLBACK ANALYTICS EXTRACTION
+    # -------------------------------------
+    def _extract_from_context(self, query, context_text):
+        q = query.lower()
+        ctx = context_text
+        
+        relevant_sections = []
+
+        def extract_section(title, next_titles):
+            try:
+                start = ctx.find(title)
+                if start == -1:
+                    return None
+                
+                # Search for the *nearest* next title from the list of possible next titles
+                end = len(ctx)
+                start_search_pos = start + len(title)
+                
+                for next_title in next_titles:
+                   next_pos = ctx.find(next_title, start_search_pos)
+                   if next_pos != -1 and next_pos < end:
+                       end = next_pos
+                
+                return ctx[start:end].strip()
+            except Exception as e:
+                print(f"Extraction error: {e}")
+                return None
+
+        # Define known section headers
+        HEADERS = [
+            "=== ANALYTICS SUMMARY ===",
+            "=== DISEASE TRENDS ===",
+            "=== DOCTOR WORKLOAD ===",
+            "=== GEOGRAPHIC DISTRIBUTION ==="
+        ]
+
+        # 1. SUMMARY
+        if any(w in q for w in ["summary", "overview", "total", "stats"]):
+            sec = extract_section("=== ANALYTICS SUMMARY ===", HEADERS)
+            if sec:
+                relevant_sections.append(f"**Executive Summary**\n{sec}")
+
+        # 2. DISEASE
+        if any(w in q for w in ["disease", "illness", "common", "prevalent", "top", "trend"]):
+            sec = extract_section("=== DISEASE TRENDS ===", HEADERS)
+            if sec:
+                relevant_sections.append(f"**Disease Analysis**\n{sec}")
+
+        # 3. DOCTOR
+        if any(w in q for w in ["doctor", "staff", "workload", "busy", "visit", "schedule"]):
+            sec = extract_section("=== DOCTOR WORKLOAD ===", HEADERS)
+            if sec:
+                relevant_sections.append(f"**Staff Performance**\n{sec}")
+        
+        # 4. BRANCH / AREA
+        if any(w in q for w in ["branch", "area", "location", "city", "geographic"]):
+            sec = extract_section("=== GEOGRAPHIC DISTRIBUTION ===", HEADERS)
+            if sec:
+                relevant_sections.append(f"**Geographic Reach**\n{sec}")
+
+        # If we found relevant sections, join them
+        if relevant_sections:
+            return "\n\n---\n\n".join(relevant_sections) + "\n\n---\n*Extracted from Analytics Knowledge Base*"
+
+        # DEFAULT FALLBACK: If nothing specific matched, show Summary + Key Insights
+        # or if the query is very generic like "explain graphs"
+        if "graph" in q or "chart" in q or "data" in q:
+             summary = extract_section("=== ANALYTICS SUMMARY ===", HEADERS)
+             trends = extract_section("=== DISEASE TRENDS ===", HEADERS)
+             if summary and trends:
+                 return f"**Overview**\n{summary}\n\n**Trends**\n{trends}\n\n---\n*Extracted from Analytics Knowledge Base*"
+
+        # Ultimate fallback
+        summary = extract_section("=== ANALYTICS SUMMARY ===", HEADERS)
+        return f"""
+**Analytics Information**
+
+I couldn't match your question to a specific category, but here is the general summary of our data:
+
+{summary or "Data not available."}
+
+Try asking about:
+- Disease trends
+- Doctor workload
+- Branch comparison
+"""
+
 if __name__ == "__main__":
     llm = LLMGenerator()
     context = """
@@ -167,4 +262,4 @@ Dr Sara: 17 visits
 Gulshan: 80 visits
 Korangi: 50 visits
 """
-    print(llm.generate_answer("What is the most common disease?", context))
+    print(llm.generate_answer("explain me disease treands", context))
