@@ -585,7 +585,7 @@ else:
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: #9AA5B1; padding: 20px;'>
-    <p><strong style='color: #E0E7FF;'>Saylani Medical Help Desk System v1.2</strong></p>
+    <p><strong style='color: #E0E7FF;'>Saylani Medical Help Desk System V2.0</strong></p>
     <p>Developed by <strong>Muhammad Hanzala</strong> from Saylani Health Management Team-AI || Powered by FastAPI & Streamlit.</p>
 </div>
 """, unsafe_allow_html=True)
