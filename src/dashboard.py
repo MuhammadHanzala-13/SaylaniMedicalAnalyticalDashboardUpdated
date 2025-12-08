@@ -9,6 +9,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.data_cleaning import main as clean_data_main
+from src.json_kb_generator import JSONKnowledgeBaseGenerator
 
 # Page config with custom theme
 st.set_page_config(
@@ -21,6 +22,7 @@ st.set_page_config(
 # Custom CSS for high-contrast professional theme
 st.markdown("""
 <style>
+    /* ... (CSS styles kept as is) ... */
     /* Main background - Very Dark Navy */
     .main {
         background-color: #0A1929;
@@ -203,29 +205,53 @@ Saylani Medical Help Desk Analytics
 # Load Data first (before sidebar filters)
 @st.cache_data
 def load_data():
-    data_path = "data/cleaned/appointments.csv"
+    csv_path = "data/cleaned/appointments.csv"
+    kb_path = "data/knowledge_base/analytics_kb.json"
     
-    # Check if data exists, if not, try to generate it
-    if not os.path.exists(data_path):
+    # 1. Check and generate CSVs if missing
+    if not os.path.exists(csv_path):
         with st.spinner("Data not found. Generating data from raw files..."):
             try:
-                # Ensure directories exist
                 os.makedirs("data/cleaned", exist_ok=True)
-                # Run cleaning pipeline
                 clean_data_main()
                 st.success("Data generated successfully!")
             except Exception as e:
                 st.error(f"Failed to generate data: {str(e)}")
                 return None
 
-    if os.path.exists(data_path):
-        return pd.read_csv(data_path)
+    # 2. Check and generate Knowledge Base (JSON) if missing
+    if not os.path.exists(kb_path):
+        with st.spinner("Building AI Knowledge Base..."):
+            try:
+                kb_gen = JSONKnowledgeBaseGenerator()
+                
+                # Load necessary DFs for KB generation
+                doctors = pd.read_csv("data/cleaned/doctors.csv")
+                branches = pd.read_csv("data/cleaned/branches.csv")
+                diseases = pd.read_csv("data/cleaned/diseases.csv")
+                appointments = pd.read_csv("data/cleaned/appointments.csv")
+                
+                kb_gen.generate_from_data(doctors, branches, diseases, appointments)
+                st.success("Knowledge Base built successfully!")
+            except Exception as e:
+                st.warning(f"Could not build Knowledge Base: {e}")
+                # Don't stop execution, just warn
+
+    if os.path.exists(csv_path):
+        return pd.read_csv(csv_path)
     return None
 
 df = load_data()
 
 # Sidebar with enhanced styling
 st.sidebar.markdown("### Control Panel")
+if st.sidebar.button("Rebuild Knowledge Base"):
+    try:
+        os.remove("data/knowledge_base/analytics_kb.json")
+        st.cache_data.clear()
+        st.rerun()
+    except:
+        pass
 st.sidebar.markdown("---")
 
 # Get unique branch names dynamically from data
