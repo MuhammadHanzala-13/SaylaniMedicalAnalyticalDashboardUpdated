@@ -43,9 +43,33 @@ class LLMGenerator:
 
         if GENAI_AVAILABLE:
             try:
-                self.model = genai.GenerativeModel("gemini-2.0-flash")
-                print("Gemini API initialized successfully (gemini-2.0-flash)")
-                self.api_available = True
+                # List of models to try in order of preference
+                candidate_models = [
+                    "gemini-2.5-flash",
+                    "gemini-2.0-flash",
+                    "gemini-2.0-flash-lite-preview-02-05",
+                    "gemini-2.0-flash-001"
+                ]
+                
+                selected_model = None
+                for model_name in candidate_models:
+                    try:
+                        # Test if model works
+                        test_model = genai.GenerativeModel(model_name)
+                        # Quick generation test to fail fast if model not found/supported
+                        test_model.generate_content("test") 
+                        selected_model = model_name
+                        self.model = test_model
+                        print(f"Gemini API initialized successfully ({selected_model})")
+                        self.api_available = True
+                        break
+                    except Exception as e:
+                        print(f"Model {model_name} failed: {e}")
+                        continue
+                
+                if not self.api_available:
+                    print("All Gemini models failed to initialize.")
+
             except Exception as e:
                 print(f"Gemini initialization failed: {e}")
                 self.api_available = False
