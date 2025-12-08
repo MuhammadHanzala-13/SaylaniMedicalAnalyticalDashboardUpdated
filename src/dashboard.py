@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import requests
 import plotly.express as px
 import plotly.graph_objects as go
 import os
@@ -10,9 +9,6 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.data_cleaning import main as clean_data_main
-
-# Configuration
-API_URL = "http://localhost:8000"
 
 # Page config with custom theme
 st.set_page_config(
@@ -211,15 +207,15 @@ def load_data():
     
     # Check if data exists, if not, try to generate it
     if not os.path.exists(data_path):
-        with st.spinner("⚠️ Data not found. Generating data from raw files..."):
+        with st.spinner("Data not found. Generating data from raw files..."):
             try:
                 # Ensure directories exist
                 os.makedirs("data/cleaned", exist_ok=True)
                 # Run cleaning pipeline
                 clean_data_main()
-                st.success("✅ Data generated successfully!")
+                st.success("Data generated successfully!")
             except Exception as e:
-                st.error(f"❌ Failed to generate data: {str(e)}")
+                st.error(f"Failed to generate data: {str(e)}")
                 return None
 
     if os.path.exists(data_path):
@@ -293,8 +289,6 @@ if df is not None and len(df) > 0:
                 unique_areas,
                 help="Geographic coverage"
             )
-        
-        st.markdown("---")
         
         st.markdown("---")
         
@@ -402,24 +396,24 @@ if df is not None and len(df) > 0:
                 # Treemap with enhanced visuals
                 st.markdown("### Disease Hierarchy (Treemap)")
                 fig_tree = px.treemap(
-                    disease_counts,
-                    path=['Disease'],
+                    disease_counts, 
+                    path=['Disease'], 
                     values='Count',
-                    color='Count',
-                    color_continuous_scale='Turbo',
+                    color='Count', 
+                    color_continuous_scale='Spectral',
                     title="Disease Volume Treemap",
                     hover_data={'Count': True, 'Cumulative Percentage': True}
                 )
                 fig_tree.update_traces(
                     textinfo="label+value+percent entry",
                     marker=dict(line=dict(width=2, color='#14344F')),
-                    textfont=dict(size=15)
+                    textfont=dict(size=14)
                 )
                 fig_tree.update_layout(
-                    height=720,
+                    height=650,
                     paper_bgcolor='#14344F',
-                    font=dict(color='#E0E7FF', size=15),
-                    margin=dict(t=60, l=10, r=10, b=10)
+                    font=dict(color='#E0E7FF', size=14),
+                    margin=dict(t=50, l=10, r=10, b=10)
                 )
                 st.plotly_chart(fig_tree, use_container_width=True)
 
@@ -473,7 +467,7 @@ if df is not None and len(df) > 0:
                     labels=dict(x=x_axis, y=y_axis, color="Count"),
                     x=crosstab.columns,
                     y=crosstab.index,
-                    color_continuous_scale='Plasma',
+                    color_continuous_scale='Viridis',
                     title=f"Heatmap: {y_axis} vs {x_axis}",
                     text_auto=True,
                     aspect="auto"
@@ -512,40 +506,37 @@ if df is not None and len(df) > 0:
     if ask_button and query:
         with st.spinner("Thinking..."):
             try:
-                response = requests.post(f"{API_URL}/chat/query", json={"query": query}, timeout=30)
-                if response.status_code == 200:
-                    data = response.json()
-                    
-                    # Display answer in a styled box
-                    st.markdown(f"""
-                    <div class="answer-box">
-                        <h4 style="color: #059669; margin-top: 0;">Answer:</h4>
-                        <p style="margin-bottom: 0;">{data['answer']}</p>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    
-                    # Display context info
-                    if data.get('context_used'):
-                        st.info(f"Source: {data['context_used']}")
-                    elif data.get('contexts'):
-                        # Fallback for old format if needed
-                        st.markdown("#### Knowledge Base Sources")
-                        for i, ctx in enumerate(data['contexts'], 1):
-                            with st.expander(f"Source {i}: {ctx.get('source', 'Unknown')}"):
-                                st.markdown(f"**Content:** {ctx['content']}")
-                    else:
-                        st.info("No specific context sources returned.")
-                        
-                else:
-                    st.error(f"API Error: Status code {response.status_code}")
-                        
+                # Initialize LLM and KB directly (Lazy initialization to save resources)
+                from src.llm import LLMGenerator
+                from src.json_kb import JSONKnowledgeBase
+                
+                llm_gen = LLMGenerator()
+                kb = JSONKnowledgeBase()
 
-                    st.info("Make sure the API server is running: `python -m src.app`")
-            except requests.exceptions.Timeout:
-                st.error("Request timed out. The server might be busy.")
-            except requests.exceptions.ConnectionError:
-                st.error("Cannot connect to API server.")
-                st.info("Start the server with: `python -m src.app`")
+                # Get full context from KB
+                context_text = kb.get_full_context()
+                
+                # Generate answer using LLM Generator directly
+                # This handles API calls and fallbacks internally
+                answer = llm_gen.generate_answer(query, context_text)
+                
+                # Determine source for display
+                source_type = "Gemini API" if llm_gen.api_available and "Extracted from Analytics Knowledge Base" not in answer else "JSON Knowledge Base (Fallback)"
+                
+                # Display answer in a styled box
+                st.markdown(f"""
+                <div class="answer-box">
+                    <h4 style="color: #059669; margin-top: 0;">Answer:</h4>
+                    <p style="margin-bottom: 0;">{answer}</p>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # Show source info
+                if source_type == "Gemini API":
+                    st.success(f"Generated by AI ({source_type})")
+                else:
+                    st.info(f"Source: {source_type}")
+                    
             except Exception as e:
                 st.error(f"Error: {str(e)}")
     
@@ -554,18 +545,15 @@ if df is not None and len(df) > 0:
 
 else:
     st.error("Data not found!")
-    st.info("Please run the pipeline script first: `.\\run_pipeline.bat`")
-    
-    with st.expander("Setup Instructions"):
-        st.code("""
-# Run the complete pipeline
-.\\run_pipeline.bat
-
-# Or run individual steps:
-python src/data_cleaning.py
-python src/json_kb_generator.py
-python src/eda_enhanced.py
-        """, language="bash")
+    # Allow manual trigger of cleaning if something goes wrong
+    if st.button("Run Data Pipeline Manually"):
+        with st.spinner("Running pipeline..."):
+            try:
+                clean_data_main()
+                st.success("Pipeline finished! Please refresh the page.")
+                st.rerun()
+            except Exception as e:
+                st.error(f"Pipeline failed: {e}")
 
 # Footer
 st.markdown("---")
