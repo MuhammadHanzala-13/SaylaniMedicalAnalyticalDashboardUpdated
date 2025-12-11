@@ -67,37 +67,78 @@ def health_check():
 def get_disease_trends():
     """Get disease trends from JSON KB"""
     try:
+        if kb.kb_data is None:
+            raise HTTPException(status_code=503, detail="Knowledge base not loaded")
+        
         data = kb.query_disease_trends()
+        
+        if not data:
+            raise HTTPException(status_code=404, detail="Disease trends data not found in knowledge base")
+        
         return {"success": True, "data": data}
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"Error in get_disease_trends: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
 
 @app.get("/analytics/doctor-workload")
 def get_doctor_workload():
     """Get doctor workload from JSON KB"""
     try:
+        if kb.kb_data is None:
+            raise HTTPException(status_code=503, detail="Knowledge base not loaded")
+        
         data = kb.query_doctor_workload()
+        
+        if not data:
+            raise HTTPException(status_code=404, detail="Doctor workload data not found in knowledge base")
+        
         return {"success": True, "data": data}
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"Error in get_doctor_workload: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
 
 @app.get("/analytics/geographic-distribution")
 def get_geographic_distribution():
     """Get geographic distribution from JSON KB"""
     try:
+        if kb.kb_data is None:
+            raise HTTPException(status_code=503, detail="Knowledge base not loaded")
+        
         data = kb.query_geographic_distribution()
+        
+        if not data:
+            raise HTTPException(status_code=404, detail="Geographic distribution data not found in knowledge base")
+        
         return {"success": True, "data": data}
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"Error in get_geographic_distribution: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
 
 @app.get("/analytics/summary")
 def get_summary():
     """Get executive summary from JSON KB"""
     try:
+        if kb.kb_data is None:
+            raise HTTPException(status_code=503, detail="Knowledge base not loaded")
+        
         data = kb.query_summary()
+        
+        if not data:
+            raise HTTPException(status_code=404, detail="Summary data not found in knowledge base")
+        
         return {"success": True, "data": data}
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"Error in get_summary: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
+
 
 @app.post("/chat/query")
 def chat_query(request: QueryRequest):
