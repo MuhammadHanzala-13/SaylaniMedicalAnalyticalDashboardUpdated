@@ -26,13 +26,17 @@ data/cache/
 data/raw/*.csv
 data/cleaned/*.csv
 data/eda_output/
-data/knowledge_base/
+
+# Knowledge base - INCLUDE the JSON file but exclude markdown
+# data/knowledge_base/  ← REMOVED THIS LINE - We need the JSON file!
+data/knowledge_base/*.md
 
 # Keep directory structure
 !data/raw/.gitkeep
 !data/cleaned/.gitkeep
 !data/eda_output/.gitkeep
 !data/knowledge_base/.gitkeep
+!data/knowledge_base/analytics_kb.json
 
 # OS files
 .DS_Store
