@@ -1,18 +1,38 @@
-pandas
-numpy
-matplotlib
-seaborn
-scikit-learn
-fuzzywuzzy
-python-Levenshtein
-fastapi
-uvicorn
-streamlit
-gTTS
-google-generativeai
-python-multipart
-requests
-pytest
-httpx
-plotly
-python-dotenv
+# Core Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.14.0
+
+# Machine Learning
+scikit-learn>=1.3.0
+
+# Text Processing
+fuzzywuzzy>=0.18.0
+python-Levenshtein>=0.21.0
+
+# Web Framework - Backend API
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+
+# Web Framework - Dashboard (Optional for Railway)
+streamlit>=1.28.0
+
+# AI/LLM Integration
+google-generativeai>=0.3.0
+gTTS>=2.4.0
+
+# HTTP Client
+requests>=2.31.0
+httpx>=0.25.0
+
+# Environment Management
+python-dotenv>=1.0.0
+
+# Testing (Development)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0

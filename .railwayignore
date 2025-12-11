@@ -1,0 +1,71 @@
+# Railway Deployment Ignore File
+# Files and directories to exclude from Railway deployment
+
+# Development files
+.git/
+.gitignore
+.vscode/
+.idea/
+*.code-workspace
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Cache and temporary files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+data/cache/
+
+# Large data files (will be generated on server or use external storage)
+data/raw/*.csv
+data/cleaned/*.csv
+data/eda_output/
+data/knowledge_base/
+
+# Keep directory structure
+!data/raw/.gitkeep
+!data/cleaned/.gitkeep
+!data/eda_output/.gitkeep
+!data/knowledge_base/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE files
+.ipynb_checkpoints/
+*.ipynb
+
+# Test files
+tests/
+test.py
+test_*.py
+*_test.py
+
+# Documentation (optional - include if you want)
+*.md
+!README.md
+
+# Logs
+*.log
+logs/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Environment files (NEVER deploy .env)
+.env
+.env.local
+.env.*.local
+*.key
+secrets/
+credentials/

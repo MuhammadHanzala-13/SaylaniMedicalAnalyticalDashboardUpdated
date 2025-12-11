@@ -6,6 +6,7 @@ Refactored FastAPI Application
 - Analytics-driven chatbot
 """
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 import uvicorn
@@ -16,6 +17,16 @@ from src.json_kb import JSONKnowledgeBase
 from src.llm import LLMGenerator
 
 app = FastAPI(title="Saylani Medical Help Desk API - Refactored")
+
+# Add CORS middleware for frontend connectivity
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, specify your frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Initialize components
 kb = JSONKnowledgeBase()
@@ -189,4 +200,6 @@ def search_analytics(request: QueryRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
+
