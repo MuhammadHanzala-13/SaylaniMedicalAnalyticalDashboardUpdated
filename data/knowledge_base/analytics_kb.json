@@ -1,0 +1,451 @@
+{
+  "metadata": {
+    "generated_at": "2025-12-11T16:39:26.368324",
+    "version": "2.0",
+    "format": "json",
+    "description": "Saylani Medical Help Desk Analytics Knowledge Base"
+  },
+  "analytics": {
+    "disease_trends": {
+      "overview": {
+        "total_unique_diseases": 23,
+        "total_cases": 2000,
+        "most_common_disease": {
+          "name": "Chemotherapy Session",
+          "count": 143,
+          "percentage": 7.15
+        }
+      },
+      "top_10_diseases": [
+        {
+          "rank": 1,
+          "disease_name": "Chemotherapy Session",
+          "case_count": 143,
+          "percentage": 7.15
+        },
+        {
+          "rank": 2,
+          "disease_name": "Toothache",
+          "case_count": 132,
+          "percentage": 6.6
+        },
+        {
+          "rank": 3,
+          "disease_name": "Cavity Filling",
+          "case_count": 131,
+          "percentage": 6.55
+        },
+        {
+          "rank": 4,
+          "disease_name": "Cancer Follow-up",
+          "case_count": 130,
+          "percentage": 6.5
+        },
+        {
+          "rank": 5,
+          "disease_name": "Angina",
+          "case_count": 127,
+          "percentage": 6.35
+        },
+        {
+          "rank": 6,
+          "disease_name": "Arrhythmia Follow-up",
+          "case_count": 125,
+          "percentage": 6.25
+        },
+        {
+          "rank": 7,
+          "disease_name": "Dental Cleaning",
+          "case_count": 121,
+          "percentage": 6.05
+        },
+        {
+          "rank": 8,
+          "disease_name": "Tumor Check",
+          "case_count": 116,
+          "percentage": 5.8
+        },
+        {
+          "rank": 9,
+          "disease_name": "Post-Op Monitoring",
+          "case_count": 116,
+          "percentage": 5.8
+        },
+        {
+          "rank": 10,
+          "disease_name": "Hypertension Check",
+          "case_count": 115,
+          "percentage": 5.75
+        }
+      ],
+      "interpretation": "The most prevalent disease is Chemotherapy Session with 143 cases, representing 7.15% of all patient visits. This indicates a significant health concern that requires focused medical resources and preventive measures."
+    },
+    "doctor_workload": {
+      "overview": {
+        "total_doctors": 20,
+        "average_patients_per_doctor": 400.0,
+        "busiest_doctor": {
+          "doctor_name": "Dr. Champa",
+          "patient_count": 417
+        }
+      },
+      "top_10_busiest_doctors": [
+        {
+          "rank": 1,
+          "doctor_name": "Dr. Champa",
+          "specialty": "Dentist",
+          "patient_count": 417,
+          "load_vs_average": 104.25
+        },
+        {
+          "rank": 2,
+          "doctor_name": "Dr Mansoor Murtaza",
+          "specialty": "Dentist",
+          "patient_count": 408,
+          "load_vs_average": 102.0
+        },
+        {
+          "rank": 3,
+          "doctor_name": "Dr. Shireen Asad",
+          "specialty": "Dentist",
+          "patient_count": 396,
+          "load_vs_average": 99.0
+        },
+        {
+          "rank": 4,
+          "doctor_name": "Dr Dunaish",
+          "specialty": "Dentist",
+          "patient_count": 394,
+          "load_vs_average": 98.5
+        },
+        {
+          "rank": 5,
+          "doctor_name": "Dr Shahid Sala Uddin",
+          "specialty": "Oncology",
+          "patient_count": 385,
+          "load_vs_average": 96.25
+        }
+      ],
+      "interpretation": "The average workload is 400.0 patients per doctor. The busiest doctor (Dr. Champa) has 417 patients, which is 104.25% of the average load. This suggests potential workload imbalance that may require staff redistribution."
+    },
+    "geographic_distribution": {
+      "overview": {
+        "total_areas_served": 5,
+        "total_branches": 5,
+        "most_served_area": {
+          "area_name": "Punjab Chowrangi",
+          "patient_count": 429,
+          "percentage": 21.45
+        }
+      },
+      "top_10_areas": [
+        {
+          "rank": 1,
+          "area_name": "Punjab Chowrangi",
+          "patient_count": 429,
+          "percentage": 21.45
+        },
+        {
+          "rank": 2,
+          "area_name": "North Nazimabad",
+          "patient_count": 412,
+          "percentage": 20.6
+        },
+        {
+          "rank": 3,
+          "area_name": "Gulshan",
+          "patient_count": 410,
+          "percentage": 20.5
+        },
+        {
+          "rank": 4,
+          "area_name": "Time Press",
+          "patient_count": 376,
+          "percentage": 18.8
+        },
+        {
+          "rank": 5,
+          "area_name": "Hyderabad",
+          "patient_count": 373,
+          "percentage": 18.65
+        }
+      ],
+      "branch_distribution": [
+        {
+          "branch_name": "Punjab Chowrangi Medical",
+          "patient_count": 429,
+          "percentage": 21.45
+        },
+        {
+          "branch_name": "North Nazimabad Medical",
+          "patient_count": 412,
+          "percentage": 20.6
+        },
+        {
+          "branch_name": "Gulshan Branch",
+          "patient_count": 410,
+          "percentage": 20.5
+        },
+        {
+          "branch_name": "Time Press Medical",
+          "patient_count": 376,
+          "percentage": 18.8
+        },
+        {
+          "branch_name": "Hyderabad Medical",
+          "patient_count": 373,
+          "percentage": 18.65
+        }
+      ],
+      "interpretation": "The area with the highest patient volume is Punjab Chowrangi with 429 patients. This represents 21.45% of total patient traffic, indicating this is a primary catchment area requiring adequate medical infrastructure."
+    },
+    "temporal_patterns": {
+      "overview": {
+        "total_days_recorded": 683,
+        "average_daily_visits": 2.93,
+        "peak_day": {
+          "date": "2025-12-02",
+          "visit_count": 22
+        }
+      },
+      "interpretation": "Peak traffic occurred on 2025-12-02 with 22 visits. The average daily visit count is 2.93. Understanding these patterns helps optimize staff scheduling and resource allocation."
+    }
+  },
+  "entities": {
+    "doctors": [
+      {
+        "doctor_id": 1,
+        "name": "Dr Mansoor Murtaza",
+        "specialty": "Dentist"
+      },
+      {
+        "doctor_id": 2,
+        "name": "Dr Dunaish",
+        "specialty": "Dentist"
+      },
+      {
+        "doctor_id": 3,
+        "name": "Dr Mansoor Murtaza",
+        "specialty": "Cardiology"
+      },
+      {
+        "doctor_id": 4,
+        "name": "Dr Shahid Sala Uddin",
+        "specialty": "Oncology"
+      },
+      {
+        "doctor_id": 5,
+        "name": "Dr. Champa",
+        "specialty": "Dentist"
+      },
+      {
+        "doctor_id": 6,
+        "name": "Dr Shahid Sala Uddin",
+        "specialty": "General Physician"
+      },
+      {
+        "doctor_id": 7,
+        "name": "Dr. Shireen Asad",
+        "specialty": "Dentist"
+      },
+      {
+        "doctor_id": 8,
+        "name": "Dr. Shireen Asad",
+        "specialty": "Oncology"
+      },
+      {
+        "doctor_id": 9,
+        "name": "Dr. Shireen Asad",
+        "specialty": "General Physician"
+      },
+      {
+        "doctor_id": 10,
+        "name": "Dr. Champa",
+        "specialty": "Cardiology"
+      },
+      {
+        "doctor_id": 11,
+        "name": "Dr Mansoor Murtaza",
+        "specialty": "Oncology"
+      },
+      {
+        "doctor_id": 12,
+        "name": "Dr Dunaish",
+        "specialty": "Cardiology"
+      },
+      {
+        "doctor_id": 13,
+        "name": "Dr Dunaish",
+        "specialty": "General Physician"
+      },
+      {
+        "doctor_id": 14,
+        "name": "Dr. Champa",
+        "specialty": "General Physician"
+      },
+      {
+        "doctor_id": 15,
+        "name": "Dr. Champa",
+        "specialty": "Oncology"
+      },
+      {
+        "doctor_id": 16,
+        "name": "Dr Mansoor Murtaza",
+        "specialty": "General Physician"
+      },
+      {
+        "doctor_id": 17,
+        "name": "Dr Dunaish",
+        "specialty": "Oncology"
+      },
+      {
+        "doctor_id": 18,
+        "name": "Dr Shahid Sala Uddin",
+        "specialty": "Cardiology"
+      },
+      {
+        "doctor_id": 19,
+        "name": "Dr. Shireen Asad",
+        "specialty": "Cardiology"
+      },
+      {
+        "doctor_id": 20,
+        "name": "Dr Shahid Sala Uddin",
+        "specialty": "Dentist"
+      }
+    ],
+    "branches": [
+      {
+        "branch_id": 1,
+        "branch_name": "Hyderabad Medical",
+        "area": "Hyderabad"
+      },
+      {
+        "branch_id": 2,
+        "branch_name": "Punjab Chowrangi Medical",
+        "area": "Punjab Chowrangi"
+      },
+      {
+        "branch_id": 3,
+        "branch_name": "Gulshan Branch",
+        "area": "Gulshan"
+      },
+      {
+        "branch_id": 4,
+        "branch_name": "Time Press Medical",
+        "area": "Time Press"
+      },
+      {
+        "branch_id": 5,
+        "branch_name": "North Nazimabad Medical",
+        "area": "North Nazimabad"
+      }
+    ],
+    "diseases": [
+      {
+        "disease_name": "Dental Cleaning",
+        "category": "Dentist"
+      },
+      {
+        "disease_name": "Gum Bleeding",
+        "category": "Dentist"
+      },
+      {
+        "disease_name": "Arrhythmia Follow-up",
+        "category": "Cardiology"
+      },
+      {
+        "disease_name": "Post-Op Monitoring",
+        "category": "Oncology"
+      },
+      {
+        "disease_name": "BP Check",
+        "category": "General Physician"
+      },
+      {
+        "disease_name": "Toothache",
+        "category": "Dentist"
+      },
+      {
+        "disease_name": "Chemotherapy Session",
+        "category": "Oncology"
+      },
+      {
+        "disease_name": "Stomach Flu",
+        "category": "General Physician"
+      },
+      {
+        "disease_name": "Hypertension Check",
+        "category": "Cardiology"
+      },
+      {
+        "disease_name": "Angina",
+        "category": "Cardiology"
+      },
+      {
+        "disease_name": "Tumor Check",
+        "category": "Oncology"
+      },
+      {
+        "disease_name": "Cavity Filling",
+        "category": "Dentist"
+      },
+      {
+        "disease_name": "Common Cold",
+        "category": "General Physician"
+      },
+      {
+        "disease_name": "Flu",
+        "category": "General Physician"
+      },
+      {
+        "disease_name": "Diabetes Checkup",
+        "category": "General Physician"
+      },
+      {
+        "disease_name": "Cancer Follow-up",
+        "category": "Oncology"
+      },
+      {
+        "disease_name": "Heart Palpitations",
+        "category": "Cardiology"
+      },
+      {
+        "disease_name": "Typhoid",
+        "category": "General Physician"
+      },
+      {
+        "disease_name": "Seasonal Fever",
+        "category": "General Physician"
+      },
+      {
+        "disease_name": "General Physician Follow-up",
+        "category": "General Physician"
+      },
+      {
+        "disease_name": "Cardiology Follow-up",
+        "category": "Cardiology"
+      },
+      {
+        "disease_name": "Oncology Follow-up",
+        "category": "Oncology"
+      },
+      {
+        "disease_name": "Dentist Follow-up",
+        "category": "Dentist"
+      }
+    ]
+  },
+  "summary": {
+    "total_patients": 2000,
+    "total_doctors": 20,
+    "total_branches": 5,
+    "total_diseases_recorded": 23,
+    "key_insights": [
+      "Most common disease: Chemotherapy Session (143 cases)",
+      "Busiest doctor: Dr. Champa (417 patients)",
+      "Top service area: Punjab Chowrangi (429 patients)",
+      "Average patients per doctor: 400.0"
+    ]
+  }
+}

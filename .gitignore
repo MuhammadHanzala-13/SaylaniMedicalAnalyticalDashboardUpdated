@@ -30,7 +30,9 @@ data/cleaned/*.csv
 data/eda_output/*.png
 data/eda_output/*.html
 data/eda_output/*.json
-data/knowledge_base/*.json
+
+# Knowledge base - EXCLUDE markdown but INCLUDE the main JSON file
+# data/knowledge_base/*.json  ← COMMENTED OUT - We need analytics_kb.json!
 data/knowledge_base/*.md
 
 # Keep only example/template files
@@ -38,6 +40,7 @@ data/knowledge_base/*.md
 !data/cleaned/.gitkeep
 !data/eda_output/.gitkeep
 !data/knowledge_base/.gitkeep
+!data/knowledge_base/analytics_kb.json
 
 # ============ VIRTUAL ENVIRONMENTS ============
 venv/
